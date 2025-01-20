@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "494510469836",
+    "project_id": "zego-c72d0",
+    "storage_bucket": "zego-c72d0.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:494510469836:android:7d97b8a9ef7004479a0869",
+        "android_client_info": {
+          "package_name": "com.example.zego"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD2J0e9L1srjLj_3zWpGKr0i1Zd0OEzNxY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
