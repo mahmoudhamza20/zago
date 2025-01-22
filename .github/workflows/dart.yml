@@ -13,23 +13,42 @@ jobs:
           architecture: x64
       - run: flutter pub get
       
-      # Clean iOS build
-      - name: Clean iOS
+      # Complete cleanup of iOS build and pods
+      - name: Clean iOS build
         run: |
           cd ios
           rm -rf Pods
           rm -f Podfile.lock
+          rm -f .symlinks
+          rm -f Podfile
           
-      # Update Podfile correctly
-      - name: Update Podfile
+      # Create new Podfile
+      - name: Create new Podfile
         run: |
           cd ios
-          # Remove any existing platform declaration
-          sed -i '' '/^platform/d' Podfile
-          # Add platform declaration at the top
-          sed -i '' '1i\
-          platform :ios, '\''15.5'\''\
-          ' Podfile
+          cat > Podfile << EOL
+          platform :ios, '15.5'
+          
+          target 'Runner' do
+            use_frameworks!
+            use_modular_headers!
+            
+            flutter_install_all_ios_pods File.dirname(File.realpath(__FILE__))
+            
+            target 'RunnerTests' do
+              inherit! :search_paths
+            end
+          end
+          
+          post_install do |installer|
+            installer.pods_project.targets.each do |target|
+              flutter_additional_ios_build_settings(target)
+              target.build_configurations.each do |config|
+                config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '15.5'
+              end
+            end
+          end
+          EOL
           
       # Install pods
       - name: Install Pods
